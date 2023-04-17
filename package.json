@@ -1,13 +1,21 @@
 {
   "name": "file-manager-node-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "This repository is the solution for the task: https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/file-manager/assignment.md",
+  "main": "index.js",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "start": "node src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Satlykov/file-manager-node-js"
   },
+  "keywords": [],
   "author": "satlykov",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Satlykov/file-manager-node-js/issues"
+  },
+  "homepage": "https://github.com/Satlykov/file-manager-node-js#readme"
 }
