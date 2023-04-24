@@ -1,3 +1,5 @@
+import { fs } from 'fs'
+
 export function isValid(command, args) {
   switch (command) {
     case 'up':
@@ -30,6 +32,5 @@ export function isValid(command, args) {
 }
 
 const _isPathToFile = (filename) => {
-  const regex = /\/|\\/g;
-  return !regex.test(filename);
+  return fs.lstatSync(filename).isFile();
 };
