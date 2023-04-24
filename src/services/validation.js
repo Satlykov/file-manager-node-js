@@ -9,9 +9,9 @@ export function isValid(command, currentPath, args) {
       return true;
 
     case 'cd':
+    case 'cat':
       return !!args[0] && _isExistsSync(currentPath, args[0]);
 
-    case 'cat':
     case 'rm':
     case 'os':
     case 'hash':
@@ -21,13 +21,22 @@ export function isValid(command, currentPath, args) {
     case 'cp':
     case 'compress':
     case 'decompress':
-      return !!(args[0] && args[1]);
+      return !!(args[0] && args[1] && _isPathForFile(args[0]));
 
     case 'add':
-      return !!(args[0] && _isPathForFile(args[0]));
+      return !!(
+        args[0] &&
+        _isPathForFile(args[0]) &&
+        !_isExistsSync(currentPath, args[0])
+      );
 
     case 'rn':
-      return !!(args[0] && args[1] && _isPathForFile(args[1]));
+      return !!(
+        args[0] &&
+        args[1] &&
+        _isPathForFile(args[1]) &&
+        _isExistsSync(currentPath, args[0])
+      );
 
     default:
       return false;
