@@ -7,7 +7,8 @@ import { isValid } from './services/validation.js';
 import { Messages } from './services/messages.js';
 import { parseInput } from './services/parseInput.js';
 import { cat, add, rn, cp, mv, rmFile } from './services/files.js';
-import { getSysInfo } from "./services/sysInfo.js";
+import { getSysInfo } from './services/sysInfo.js';
+import { hash } from './services/hash.js';
 
 export class App {
   constructor() {
@@ -77,6 +78,10 @@ export class App {
     getSysInfo(arg);
   }
 
+  async hash([arg]) {
+    const filePathAbsolute = this._pathResolver(arg);
+    await hash(filePathAbsolute);
+  }
   async start() {
     this._messages.startMessage();
     process.on('exit', () => this._messages.endMessage());
