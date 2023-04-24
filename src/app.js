@@ -111,6 +111,11 @@ export class App {
       );
       const [command, ...args] = parseInput(input);
 
+      if (command === '.exit') {
+        process.exit();
+        return;
+      }
+
       if (isValid(command, this._currentPath, args)) {
         try {
           await this[command](args);
