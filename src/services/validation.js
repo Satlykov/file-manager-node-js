@@ -1,4 +1,7 @@
-export function isValid(command, args) {
+import fs from "fs";
+import { resolve } from "path";
+
+export function isValid(command, currentPath, args) {
   switch (command) {
     case 'up':
     case 'ls':
@@ -6,6 +9,8 @@ export function isValid(command, args) {
       return true;
 
     case 'cd':
+      return !!args[0] && _isExistsSync(currentPath, args[0]);
+
     case 'cat':
     case 'rm':
     case 'os':
@@ -19,17 +24,22 @@ export function isValid(command, args) {
       return !!(args[0] && args[1]);
 
     case 'add':
-      return !!(args[0] && _isPathToFile(args[0]));
+      return !!(args[0] && _isPathForFile(args[0]));
 
     case 'rn':
-      return !!(args[0] && args[1] && _isPathToFile(args[1]));
+      return !!(args[0] && args[1] && _isPathForFile(args[1]));
 
     default:
       return false;
   }
 }
 
-const _isPathToFile = (filename) => {
-  const regex = /\/|\\/g;
-  return !regex.test(filename);
+const _isPathForFile = (path) => {
+  const dirMarkerRegExp = /\/|\\/g;
+  return !dirMarkerRegExp.test(path);
 };
+
+const _isExistsSync = (currentPath, path) => {
+  const absolutePath = resolve(currentPath, path);
+  return fs.existsSync(absolutePath);
+}

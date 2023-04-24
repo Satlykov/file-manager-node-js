@@ -16,6 +16,14 @@ export class App {
     return resolve(this._currentPath, p);
   }
 
+  up() {
+    this._currentPath = this._pathResolver('..');
+  }
+
+  cd([path]) {
+    this._currentPath = this._pathResolver(path);
+  }
+
   async start() {
     this._messages.startMessage();
     process.on('exit', () => this._messages.endMessage());
@@ -31,7 +39,7 @@ export class App {
       );
       const [command, ...args] = parseInput(input);
 
-      if (isValid(command, args)) {
+      if (isValid(command, this._currentPath, args)) {
         try {
           await this[command](args);
           console.log(this._messages.operationSuccessful);
