@@ -7,6 +7,7 @@ import { isValid } from './services/validation.js';
 import { Messages } from './services/messages.js';
 import { parseInput } from './services/parseInput.js';
 import { cat, add, rn, cp, mv, rmFile } from './services/files.js';
+import { getSysInfo } from "./services/sysInfo.js";
 
 export class App {
   constructor() {
@@ -70,6 +71,10 @@ export class App {
   async rm([filePath]) {
     const filePathAbsolute = this._pathResolver(filePath);
     await rmFile(filePathAbsolute);
+  }
+
+  os([arg]) {
+    getSysInfo(arg);
   }
 
   async start() {
