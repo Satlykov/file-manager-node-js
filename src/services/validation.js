@@ -1,5 +1,5 @@
-import fs from "fs";
-import { resolve } from "path";
+import fs from 'fs';
+import { resolve } from 'path';
 
 export function isValid(command, currentPath, args) {
   switch (command) {
@@ -35,11 +35,11 @@ export function isValid(command, currentPath, args) {
 }
 
 const _isPathForFile = (path) => {
-  const dirMarkerRegExp = /\/|\\/g;
+  const dirMarkerRegExp = /[\/\\]/g;
   return !dirMarkerRegExp.test(path);
 };
 
 const _isExistsSync = (currentPath, path) => {
   const absolutePath = resolve(currentPath, path);
   return fs.existsSync(absolutePath);
-}
+};

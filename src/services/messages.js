@@ -28,6 +28,6 @@ export class Messages {
   }
 
   currentlyIn(path) {
-    return `You are currently in ${path}\n`
+    return `You are currently in ${path}\n`;
   }
 }

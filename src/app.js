@@ -1,10 +1,11 @@
 import { resolve } from 'path';
 import { homedir } from 'os';
+import { readdir } from 'fs/promises';
 import { createInterface } from 'readline/promises';
 
 import { isValid } from './services/validation.js';
 import { Messages } from './services/messages.js';
-import { parseInput } from './services/parseInput.js'
+import { parseInput } from './services/parseInput.js';
 
 export class App {
   constructor() {
@@ -22,6 +23,18 @@ export class App {
 
   cd([path]) {
     this._currentPath = this._pathResolver(path);
+  }
+
+  async ls() {
+    const list = (await readdir(this._currentPath, { withFileTypes: true }))
+      .filter((el) => !el.isSymbolicLink())
+      .sort((a, b) => a.isFile() - b.isFile());
+    console.table(
+      list.map((item) => ({
+        Name: item.name,
+        Type: item.isFile() ? 'file' : 'directory',
+      }))
+    );
   }
 
   async start() {
