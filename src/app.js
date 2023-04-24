@@ -9,6 +9,7 @@ import { parseInput } from './services/parseInput.js';
 import { cat, add, rn, cp, mv, rmFile } from './services/files.js';
 import { getSysInfo } from './services/sysInfo.js';
 import { hash } from './services/hash.js';
+import { compress, decompress } from './services/compressing-decompressing.js';
 
 export class App {
   constructor() {
@@ -82,6 +83,19 @@ export class App {
     const filePathAbsolute = this._pathResolver(arg);
     await hash(filePathAbsolute);
   }
+
+  async compress([pathFrom, pathTo]) {
+    const filePath = this._pathResolver(pathFrom);
+    const compressPath = this._pathResolver(pathTo);
+    await compress(filePath, compressPath);
+  }
+
+  async decompress([pathFrom, pathTo]) {
+    const filePath = this._pathResolver(pathFrom);
+    const decompressPath = this._pathResolver(pathTo);
+    await decompress(filePath, decompressPath);
+  }
+
   async start() {
     this._messages.startMessage();
     process.on('exit', () => this._messages.endMessage());
