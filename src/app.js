@@ -21,6 +21,15 @@ export class App {
     return resolve(this._currentPath, p);
   }
 
+  _pathAndFileResolver(p1, p2, decompress = false) {
+    const arrPath = p1.split('/');
+    let fileName = arrPath[arrPath.length - 1];
+    if (decompress) {
+      fileName = fileName.split('.gz')[0];
+    }
+    return resolve(this._currentPath, `${p2}/${fileName}`);
+  }
+
   up() {
     this._currentPath = this._pathResolver('..');
   }
@@ -60,13 +69,16 @@ export class App {
 
   async cp([filePath, newFilePath]) {
     const filePathAbsolute = this._pathResolver(filePath);
-    const newFilePathAbsolute = this._pathResolver(newFilePath);
+    const newFilePathAbsolute = this._pathAndFileResolver(
+      filePath,
+      newFilePath
+    );
     await cp(filePathAbsolute, newFilePathAbsolute);
   }
 
   async mv([oldPath, newPath]) {
     const filePathAbsolute = this._pathResolver(oldPath);
-    const newFilePathAbsolute = this._pathResolver(newPath);
+    const newFilePathAbsolute = this._pathAndFileResolver(oldPath, newPath);
     await mv(filePathAbsolute, newFilePathAbsolute);
   }
 
@@ -86,13 +98,13 @@ export class App {
 
   async compress([pathFrom, pathTo]) {
     const filePath = this._pathResolver(pathFrom);
-    const compressPath = this._pathResolver(pathTo);
+    const compressPath = this._pathAndFileResolver(pathFrom, pathTo);
     await compress(filePath, compressPath);
   }
 
   async decompress([pathFrom, pathTo]) {
     const filePath = this._pathResolver(pathFrom);
-    const decompressPath = this._pathResolver(pathTo);
+    const decompressPath = this._pathAndFileResolver(pathFrom, pathTo, true);
     await decompress(filePath, decompressPath);
   }
 

@@ -5,7 +5,7 @@ import { pipeline } from 'stream/promises';
 export const compress = async (pathFrom, pathTo) => {
   const createCompress = createBrotliCompress();
   const readable = createReadStream(pathFrom);
-  const writable = createWriteStream(pathTo);
+  const writable = createWriteStream(`${pathTo}.gz`);
   await pipeline(readable, createCompress, writable);
 };
 
